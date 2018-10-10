@@ -1,0 +1,15 @@
+h1 {
+    color: rgb(24, 24, 24);
+    font-variant-caps: all-small-caps;
+    font-size: 32px;
+}
+
+p1 {
+    color: rgb(24, 24, 24);
+    font-variant-caps: all-small-caps;
+    font-size: 18px;
+}
+
+body {
+    background: rgb(44, 205, 226);
+}
