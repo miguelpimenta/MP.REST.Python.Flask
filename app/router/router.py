@@ -1,8 +1,5 @@
 from app import app
-from flask import request, jsonify, render_template
-import json
-import ast
-import imp
+from flask import jsonify, render_template
 
 # Root
 @app.route("/")
