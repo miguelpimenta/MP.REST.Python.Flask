@@ -1,6 +1,9 @@
 from app import app
 from flask import jsonify, render_template
 
+def get():
+    return ['v1']
+
 # Root
 @app.route("/")
 def root_response():
@@ -10,7 +13,6 @@ def root_response():
         'apiVersion': 'Version 1.0',
         'by': 'Miguel Pimenta'
     }
-    #return jsonify(message)
     return render_template('index.html', message=message)
 
 # Create User
