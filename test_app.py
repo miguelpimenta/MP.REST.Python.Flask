@@ -1,5 +1,4 @@
 import unittest
-import json
 from app import app
 from app import router as r
 
@@ -22,7 +21,7 @@ class TestAPILocally(unittest.TestCase):
             retVal = r.root_response()
             for var in retVal:
                 print(retVal.index(var), var)
-            #self.assertTrue(retVal[1] == 501)"""
+            self.assertTrue(retVal[1] == 501)"""
 
     def test_create_user(self):
         with app.app_context():
