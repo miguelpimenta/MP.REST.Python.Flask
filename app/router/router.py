@@ -1,8 +1,18 @@
 from app import app
-from flask import jsonify, render_template
+from flask import jsonify, render_template, request
+import app.controllers.usersCtrl as uCtrl
+import json
+import ast
+import imp
+try:
+    import urlparse
+except ImportError:
+    import urllib.parse as urlparse
 
-def get():
-    return ['v1']
+def parse_query_params(query_string):
+    query_params = dict(urlparse.parse_qs(query_string))
+    query_params = {k: v[0] for k, v in query_params.items()}
+    return query_params
 
 # Root
 @app.route("/")
@@ -17,6 +27,28 @@ def root_response():
 
 # Create User
 @app.route("/users", methods=['POST'])
+def create_user():
+    try:
+        try:
+            body = ast.literal_eval(json.dumps(request.get_json()))
+        except Exception as e:
+            message = {
+                'status': '400',
+                'message': 'Bad request.',
+                'error': str(e)
+            }
+            return jsonify(message), 400
+        # Controller
+        return (uCtrl.create_user(body))
+    except Exception as e:
+        message = {
+            'status': '500',
+            'message': 'Sorry, an error occurred',
+            'error': str(e)
+        }
+        return jsonify(message), 500
+
+
 def create_user():
     message = {
         'status': '501',
