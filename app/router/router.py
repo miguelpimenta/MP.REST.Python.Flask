@@ -61,11 +61,24 @@ def read_user(user_id):
 # Update User
 @app.route("/users/<user_id>", methods=['POST'])
 def update_user(user_id):
-    message = {
-        'status': '501',
-        'message': 'Not implemented.',
-    }
-    return jsonify(message), 501
+    try:        
+        try:
+            body = ast.literal_eval(json.dumps(request.get_json()))            
+        except Exception as e:
+            message = {        
+                'status': '400',
+                'message': 'Bad request.'                
+            }
+            return jsonify(message), 400
+        # Controller
+        return (usersCtrl.update_user(user_id, body))
+    except Exception as e:
+        print(str(e))
+        message = {        
+            'status': '500',
+            'message': 'Sorry, an error occurred.'      
+        }
+        return jsonify(message), 500    
 
 # Delete Record
 @app.route("/users/<user_id>", methods=['DELETE'])

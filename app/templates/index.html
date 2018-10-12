@@ -1,3 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+  <h1>Index</h1>
+    <h1>{{message.message}}</h1>
+    <p1>{{message.apiVersion}}</p>
+    <p1>{{message.by}}</p>
+{% endblock %}
+<!--
 <html>  
   <head>
     <title>Python REST API</title>
@@ -11,3 +26,4 @@
     <script src="/static/scripts.js" charset="utf-8"></script>
   </body>
 </html>  
+-->

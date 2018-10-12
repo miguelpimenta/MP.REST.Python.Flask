@@ -34,18 +34,8 @@ def read_user(user_id):
     return jsonify(message), 501
 
 # Update Record
-def update_user(user_id, request):
+def update_user(user_id, body):
     try:        
-        try:
-            body = ast.literal_eval(json.dumps(request.get_json()))            
-        except Exception as e:
-            print(str(e))
-            message = {        
-                'status': '400',
-                'message': 'Bad request.'            
-            }
-            return jsonify(message), 400            
-
         dal = get_dal()
         record_updated = dal.replace(usersCollName, user_id, body)
         
