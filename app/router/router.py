@@ -1,6 +1,6 @@
 from app import app
 from flask import jsonify, render_template, request
-import app.controllers.usersCtrl as uCtrl
+import app.controllers.usersCtrl as usersCtrl
 import json
 import ast
 import imp
@@ -32,36 +32,29 @@ def create_user():
         try:
             body = ast.literal_eval(json.dumps(request.get_json()))
         except Exception as e:
+            print(str(e))
+            #raise 400()
             message = {
                 'status': '400',
-                'message': 'Bad request.',
-                'error': str(e)
+                'message': 'Bad request.',                
             }
             return jsonify(message), 400
         # Controller
-        return (uCtrl.create_user(body))
+        return (usersCtrl.create_user(body))
     except Exception as e:
+        print(str(e))
         message = {
             'status': '500',
-            'message': 'Sorry, an error occurred',
-            'error': str(e)
+            'message': 'Sorry, an error occurred',            
         }
         return jsonify(message), 500
-
-
-def create_user():
-    message = {
-        'status': '501',
-        'message': 'Create User Not implemented.',
-    }
-    return jsonify(message), 501
 
 # Read User
 @app.route("/users/<user_id>", methods=['GET'])
 def read_user(user_id):
     message = {
         'status': '501',
-        'message': 'Read User Not implemented.',
+        'message': 'Not implemented.',
     }
     return jsonify(message), 501
 
@@ -70,7 +63,7 @@ def read_user(user_id):
 def update_user(user_id):
     message = {
         'status': '501',
-        'message': 'Update User Not implemented.',
+        'message': 'Not implemented.',
     }
     return jsonify(message), 501
 
@@ -86,13 +79,24 @@ def remove_user(user_id):
 # List Users
 @app.route("/users", methods=['GET'])
 def list_search_users():
-    message = {
-        'status': '501',
-        'message': 'List/Search Users Not implemented.',
-    }
-    return jsonify(message), 501
+    try:        
+        query_params = parse_query_params(request.query_string)        
+        if query_params:
+            for key, value in query_params.items():    
+                # Controller
+                return (usersCtrl.search_users(key, value))                                
+        else:
+            # Controller
+            return (usersCtrl.list_users())    
+    except Exception as e:
+        print(str(e))
+        message = {        
+            'status': '500',
+            'message': 'Sorry, an error occurred',            
+        }
+        return jsonify(message), 500        
 
-
+# Error Handlers
 @app.errorhandler(400)
 def bad_request(e):
     print(str(e))
@@ -111,11 +115,20 @@ def page_not_found(e):
     }
     return jsonify(message), 404
 
+@app.errorhandler(500)
+def server_error(e):
+    print(str(e))
+    message = {
+        'status': '500',
+        'message': 'Internal Server Error.',
+    }
+    return jsonify(message), 500
+
 @app.errorhandler(501)
 def not_implemented(e):
     print(str(e))
     message = {
         'status': '501',
-        'message': 'Internal server error / Not implemented.',
+        'message': 'Not implemented.',
     }
     return jsonify(message), 501
