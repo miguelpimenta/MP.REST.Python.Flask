@@ -1,4 +1,3 @@
-from pymongo import MongoClient
 import os
 
 # Collections Name on MongoDB

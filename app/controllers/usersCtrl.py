@@ -1,11 +1,7 @@
-from app import app
 from app.dal.dal import get_dal
 from app.config.config import usersCollName
 from bson.json_util import dumps
-from flask import request, jsonify
-import json
-import ast
-import imp
+from flask import jsonify
 
 # Create User
 def create_user(body):
@@ -27,13 +23,6 @@ def create_user(body):
 
 # Read User
 def read_user(user_id):
-    """
-    message = {
-        'status': '501',
-        'message': 'Not implemented.',
-    }
-    return jsonify(message), 501
-    """
     try:
         dal = get_dal()
         user = dal.get_by_id(usersCollName, user_id)
@@ -97,6 +86,7 @@ def delete_user(user_id):
             }
             return jsonify(message), 404
     except Exception as e:
+        print(str(e))
         message = {
             'status': '500',
             'message': 'Sorry, an error occurred'

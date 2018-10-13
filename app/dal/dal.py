@@ -66,7 +66,6 @@ class DAL:
         collection = db[collection_name]
         return collection.remove({'_id': ObjectId(item_id)})
 
-    """ System """
     # Create Collection
     def create_collection(self, collection_name):
         db = self.client[self.db_name]

@@ -3,7 +3,6 @@ from flask import jsonify, render_template, request
 import app.controllers.usersCtrl as usersCtrl
 import json
 import ast
-import imp
 try:
     import urlparse
 except ImportError:
@@ -40,6 +39,7 @@ def create_user():
         # Controller
         return (usersCtrl.create_user(body))
     except Exception as e:
+        print(str(e))
         message = {
             'status': '500',
             'message': 'Sorry, an error occurred',

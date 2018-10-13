@@ -1,7 +1,6 @@
 import unittest
 from app import app
 from app import router as r
-from flask import jsonify
 
 class TestAPILocally(unittest.TestCase):
 
