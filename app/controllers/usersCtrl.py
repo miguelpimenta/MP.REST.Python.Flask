@@ -27,60 +27,79 @@ def create_user(body):
 
 # Read User
 def read_user(user_id):
+    """
     message = {
         'status': '501',
-        'message': 'Read User Not implemented.',
+        'message': 'Not implemented.',
     }
     return jsonify(message), 501
+    """
+    try:
+        dal = get_dal()
+        user = dal.get_by_id(usersCollName, user_id)
+        if user:
+            return dumps(user), 200
+        else:
+            message = {
+                'status': '404',
+                'message': 'Not found'
+            }
+            return jsonify(message), 404
+    except Exception as e:
+        print(str(e))
+        message = {
+            'status': '500',
+            'message': 'Sorry, an error occurred',
+        }
+        return jsonify(message), 500
 
-# Update Record
+# Update User
 def update_user(user_id, body):
-    try:        
+    try:
         dal = get_dal()
         record_updated = dal.replace(usersCollName, user_id, body)
-        
+
         # Check if resource is updated and return info
         if record_updated.modified_count == 1:
-            message = {        
+            message = {
                 'status': '200',
                 'message': 'Updated with success.'
             }
-            return jsonify(message), 200            
+            return jsonify(message), 200
         else:
-            message = {        
+            message = {
                 'status': '404',
                 'message': 'Sorry, record not Found.'
             }
-            return jsonify(message), 404            
+            return jsonify(message), 404
     except Exception as e:
-        print(str(e))
-        message = {        
+        message = {
             'status': '500',
-            'message': 'Sorry, an error occurred.'            
+            'message': 'Sorry, an error occurred.'
         }
-        return jsonify(message), 500        
+        return jsonify(message), 500
 
 # Delete Record
-def remove_user(user_id):
+def delete_user(user_id):
     try:
         dal = get_dal()
         record_deleted = dal.delete(usersCollName, user_id)
         if record_deleted > 0 :
-            message = {        
+            message = {
                 'status': '200',
                 'message': 'Record ' + user_id + ' deleted.'
             }
-            return jsonify(message), 200      
+            return jsonify(message), 200
         else:
-            message = {        
+            message = {
                 'status': '404',
                 'message': 'Record ' + user_id + ' not found.'
             }
             return jsonify(message), 404
     except Exception as e:
-        message = {        
+        message = {
             'status': '500',
-            'message': 'Sorry, an error occurred'            
+            'message': 'Sorry, an error occurred'
         }
         return jsonify(message), 500
 
@@ -89,35 +108,35 @@ def list_users():
     try:
         dal = get_dal()
         records_fetched = dal.get(usersCollName)
-        if len(records_fetched) > 0:                
+        if len(records_fetched) > 0:
             return dumps(records_fetched)
         else:
             return jsonify([])
     except Exception as e:
         print(str(e))
-        message = {        
+        message = {
             'status': '500',
-            'message': 'Sorry, an error occurred',            
+            'message': 'Sorry, an error occurred',
         }
-        return jsonify(message), 500        
+        return jsonify(message), 500
 
 # List/Search Users
-def search_users(key, value):    
+def search_users(key, value):
     try:
-        dal = get_dal()          
-        records_fetched = dal.find(usersCollName, key, value)      
+        dal = get_dal()
+        records_fetched = dal.find(usersCollName, key, value)
         if records_fetched:
             return dumps(records_fetched), 200
         else:
-            message = {        
+            message = {
                 'status': '404',
                 'message': 'Not found'
             }
-            return jsonify(message), 404            
+            return jsonify(message), 404
     except Exception as e:
         print(str(e))
-        message = {        
+        message = {
             'status': '500',
-            'message': 'Sorry, an error occurred',            
+            'message': 'Sorry, an error occurred',
         }
         return jsonify(message), 500

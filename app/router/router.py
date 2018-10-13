@@ -32,82 +32,87 @@ def create_user():
         try:
             body = ast.literal_eval(json.dumps(request.get_json()))
         except Exception as e:
-            print(str(e))
-            #raise 400()
             message = {
                 'status': '400',
-                'message': 'Bad request.',                
+                'message': 'Bad request.',
             }
             return jsonify(message), 400
         # Controller
         return (usersCtrl.create_user(body))
     except Exception as e:
-        print(str(e))
         message = {
             'status': '500',
-            'message': 'Sorry, an error occurred',            
+            'message': 'Sorry, an error occurred',
         }
         return jsonify(message), 500
 
 # Read User
 @app.route("/users/<user_id>", methods=['GET'])
 def read_user(user_id):
-    message = {
-        'status': '501',
-        'message': 'Not implemented.',
-    }
-    return jsonify(message), 501
+    try:
+        # Controlled
+        return usersCtrl.read_user(user_id)
+    except Exception as e:
+        print(str(e))
+        message = {
+            'status': '500',
+            'message': 'Sorry, an error occurred',
+        }
+        return jsonify(message), 500
 
 # Update User
 @app.route("/users/<user_id>", methods=['POST'])
 def update_user(user_id):
-    try:        
+    try:
         try:
-            body = ast.literal_eval(json.dumps(request.get_json()))            
+            body = ast.literal_eval(json.dumps(request.get_json()))
         except Exception as e:
-            message = {        
+            message = {
                 'status': '400',
-                'message': 'Bad request.'                
+                'message': 'Bad request.'
             }
             return jsonify(message), 400
         # Controller
         return (usersCtrl.update_user(user_id, body))
     except Exception as e:
-        print(str(e))
-        message = {        
+        message = {
             'status': '500',
-            'message': 'Sorry, an error occurred.'      
+            'message': 'Sorry, an error occurred.'
         }
-        return jsonify(message), 500    
+        return jsonify(message), 500
 
 # Delete Record
 @app.route("/users/<user_id>", methods=['DELETE'])
-def remove_user(user_id):
-    message = {
-        'status': '501',
-        'message': 'Delete Record Not implemented.',
-    }
-    return jsonify(message), 501
+def delete_user(user_id):
+    try:
+        # Controller
+        return usersCtrl.delete_user(user_id)
+    except Exception as e:
+        message = {
+            'status': '500',
+            'message': 'Sorry, an error occurred.'
+        }
+        return jsonify(message), 500
 
 # List Users
 @app.route("/users", methods=['GET'])
 def list_search_users():
-    try:        
-        query_params = parse_query_params(request.query_string)        
+    try:
+        query_params = parse_query_params(request.query_string)
         if query_params:
-            for key, value in query_params.items():    
-                # Controller
-                return (usersCtrl.search_users(key, value))                                
+            for key, value in query_params.items():
+                # Controller Search
+                return (usersCtrl.search_users(key, value))
         else:
-            # Controller
-            return (usersCtrl.list_users())    
+            # Controller List All
+            return (usersCtrl.list_users())
     except Exception as e:
         print(str(e))
-        message = {        
+        message = {
             'status': '500',
-            'message': 'Sorry, an error occurred',            
+            'message': 'Sorry, an error occurred',
         }
-        return jsonify(message), 500        
+        return jsonify(message), 500
 
 # Error Handlers
 @app.errorhandler(400)
