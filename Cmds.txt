@@ -8,3 +8,25 @@ deactivate
 pip install pipreqs
 pip freeze > requirements.txt
 pip install -r requirements.txt
+
+[Heroku]
+# Create Repo/Add/Commit
+    git init
+    git add .
+    git commit -m "Init"
+# Create App
+    heroku create "appname"
+# Create Enviroment Vars
+    heroku config:set MONGO_USERNAME=...
+    heroku config:set MONGO_PASSWORD=...
+    heroku config:set MONGO_HOST=...
+    heroku config:set MONGO_PORT=...
+    heroku config:set MONGO_DB_NAME=...
+# Push app to Heroku
+    git push heroku master
+
+heroku restart
+heroku ps:scale web=1
+heroku ps
+heroku open
+heroku logs --tail

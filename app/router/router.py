@@ -67,6 +67,7 @@ def update_user(user_id):
         try:
             body = ast.literal_eval(json.dumps(request.get_json()))
         except Exception as e:
+            print(str(e))
             message = {
                 'status': '400',
                 'message': 'Bad request.'

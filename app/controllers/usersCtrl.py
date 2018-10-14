@@ -62,6 +62,7 @@ def update_user(user_id, body):
             }
             return jsonify(message), 404
     except Exception as e:
+        print(str(e))
         message = {
             'status': '500',
             'message': 'Sorry, an error occurred.'
