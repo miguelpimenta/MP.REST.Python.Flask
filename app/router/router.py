@@ -76,6 +76,7 @@ def update_user(user_id):
         # Controller
         return (usersCtrl.update_user(user_id, body))
     except Exception as e:
+        print(str(e))
         message = {
             'status': '500',
             'message': 'Sorry, an error occurred.'
@@ -89,6 +90,7 @@ def delete_user(user_id):
         # Controller
         return usersCtrl.delete_user(user_id)
     except Exception as e:
+        print(str(e))
         message = {
             'status': '500',
             'message': 'Sorry, an error occurred.'
